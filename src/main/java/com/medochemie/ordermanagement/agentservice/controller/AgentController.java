@@ -32,6 +32,11 @@ public class AgentController {
         return new ResponseEntity(agentService.findById(id), HttpStatus.OK);
     }
 
+    @GetMapping("/agent-name/{agentName}")
+    public ResponseEntity<Agent> getAgentByName(@PathVariable String agentName) {
+        return new ResponseEntity(agentService.findAgentByName(agentName), HttpStatus.OK);
+    }
+
     @PostMapping("/add-agent")
     public ResponseEntity<Agent> addNewAgent(@RequestBody Agent agent) {
         try {
