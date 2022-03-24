@@ -1,7 +1,6 @@
 package com.medochemie.ordermanagement.agentservice.controller;
 
 import com.medochemie.ordermanagement.agentservice.entity.Agent;
-import com.medochemie.ordermanagement.agentservice.repository.AgentRepository;
 import com.medochemie.ordermanagement.agentservice.service.AgentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,26 +12,26 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/agents")
+@RequestMapping("/api/v1/agents")
 public class AgentController {
 
     @Autowired
     private AgentService agentService;
 
 
-    @GetMapping("/")
+    @GetMapping("/list")
     public ResponseEntity<List<Agent>> getAllAgents() {
         List<Agent> agents = agentService.findAll();
         return new ResponseEntity(agents, HttpStatus.OK);
     }
 
 
-    @GetMapping("/{id}")
+    @GetMapping("/list/{id}")
     public ResponseEntity<Agent> getAgentById(@PathVariable String id) {
         return new ResponseEntity(agentService.findById(id), HttpStatus.OK);
     }
 
-    @GetMapping("/agent-name/{agentName}")
+    @GetMapping("/list/agent-name/{agentName}")
     public ResponseEntity<Agent> getAgentByName(@PathVariable String agentName) {
         return new ResponseEntity(agentService.findAgentByName(agentName), HttpStatus.OK);
     }
@@ -43,8 +42,8 @@ public class AgentController {
             if (agent.getAddress() != null && agent.getAgentName() != null) {
                 agent.setCreatedOn(new Date());
                 agent.setCountryId(agent.getAddress().getCountry());
-                Agent _agent = agentService.addNewAgent(agent);
-                return new ResponseEntity(_agent, HttpStatus.CREATED);
+                Agent newAgent = agentService.addNewAgent(agent);
+                return new ResponseEntity(newAgent, HttpStatus.CREATED);
             } else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
