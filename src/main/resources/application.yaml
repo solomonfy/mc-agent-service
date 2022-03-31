@@ -8,6 +8,9 @@ spring:
       auto-index-creation: true
   application:
     name: MC-AGENT-SERVICE
+#  mvc:
+#    pathmatch:
+#      matching-strategy: ANT_PATH_MATCHER
 
 eureka:
   client:

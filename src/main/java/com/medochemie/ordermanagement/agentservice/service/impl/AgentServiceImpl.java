@@ -38,7 +38,6 @@ public class AgentServiceImpl implements AgentService {
         } catch (Exception e) {
             throw e;
         }
-
         return agent;
     }
 
@@ -50,7 +49,6 @@ public class AgentServiceImpl implements AgentService {
         } else {
             return null;
         }
-
     }
 
     @Override
