@@ -15,37 +15,9 @@ import java.util.Collections;
 
 @SpringBootApplication
 @EnableEurekaClient
-@EnableSwagger2
 public class AgentServiceApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(AgentServiceApplication.class, args);
 	}
-
-	@Bean
-	public Docket swaggerConfiguration(){
-		return new Docket(DocumentationType.SWAGGER_2)
-				.select()
-				.paths(PathSelectors.ant("/api/v1/agents/*"))
-				.apis(RequestHandlerSelectors.basePackage("com.medochemie"))
-				.build()
-				.apiInfo(apiInfo());
-	}
-
-	private ApiInfo apiInfo() {
-		return new ApiInfo(
-				"MC Agents API",
-				"API for managing agents information",
-				"1.0.0",
-				"Only for internal use",
-				new springfox.documentation.service.Contact(
-						"Medochemie Ltd",
-						"https://www.medochemie.com/",
-						"https://www.medochemie.com/ContactUs.aspx"),
-				"API License - for internal use only",
-				"https://www.medochemie.com/",
-				Collections.emptyList()
-		);
-	}
-
 }

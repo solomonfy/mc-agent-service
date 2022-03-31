@@ -2,8 +2,7 @@ package com.medochemie.ordermanagement.agentservice.controller;
 
 import com.medochemie.ordermanagement.agentservice.entity.Agent;
 import com.medochemie.ordermanagement.agentservice.service.AgentService;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/agents")
+@Api(value = "Agent resource to handle all Agent related action and queries")
 public class AgentController {
 
     private AgentService agentService;
@@ -28,6 +28,11 @@ public class AgentController {
             value = "Returns all agents",
             notes = "",
             response = ResponseEntity.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully retrieved all agents"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+    })
     public ResponseEntity<List<Agent>> getAllAgents() {
         List<Agent> agents = agentService.findAll();
         return new ResponseEntity(agents, HttpStatus.OK);
