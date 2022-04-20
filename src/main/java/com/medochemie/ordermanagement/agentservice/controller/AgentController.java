@@ -3,6 +3,8 @@ package com.medochemie.ordermanagement.agentservice.controller;
 import com.medochemie.ordermanagement.agentservice.entity.Agent;
 import com.medochemie.ordermanagement.agentservice.service.AgentService;
 import io.swagger.annotations.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +19,8 @@ import java.util.List;
 @Api(value = "Agent resource to handle all Agent related action and queries")
 public class AgentController {
 
+    private final static Logger logger = LoggerFactory.getLogger(Agent.class);
     private AgentService agentService;
-
     public AgentController(AgentService agentService) {
         this.agentService = agentService;
     }
@@ -47,12 +49,19 @@ public class AgentController {
     public ResponseEntity<Agent> getAgentById(
             @ApiParam(value = "Id is needed to retrieve an agent", required = true)
             @PathVariable String id) {
-        return new ResponseEntity(agentService.findById(id), HttpStatus.OK);
+        Agent agent = null;
+        try{
+            agent = agentService.findById(id);
+            logger.info(String.format("Returning %s", agent.getAgentName()));
+            return new ResponseEntity(agent, HttpStatus.OK);
+        }
+        catch (Exception ex) {
+            logger.info(ex.getMessage());
+            throw ex;
+        }
     }
 
-
-
-    @GetMapping("/list/agent-name/{agentName}")
+    @GetMapping("/agent-name/{agentName}")
     @ApiOperation(
             value = "Returns an agent from the data with the given name",
             notes = "Given agents name, returns the agent",
@@ -62,9 +71,6 @@ public class AgentController {
             @PathVariable String agentName) {
         return new ResponseEntity(agentService.findAgentByName(agentName), HttpStatus.OK);
     }
-
-
-
 
     @PostMapping("/add-agent")
     @ApiOperation(
