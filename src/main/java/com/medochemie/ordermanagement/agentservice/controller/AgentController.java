@@ -17,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/agents")
 @Api(value = "Agent resource to handle all Agent related action and queries")
+@CrossOrigin(origins = {"http://localhost:4200/", "http://localhost:3000/", "http://localhost:3001/"})
 public class AgentController {
 
     private final static Logger logger = LoggerFactory.getLogger(Agent.class);

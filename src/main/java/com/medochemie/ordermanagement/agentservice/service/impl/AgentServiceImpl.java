@@ -24,13 +24,15 @@ public class AgentServiceImpl implements AgentService {
 
         if (agent.getId() != null) {
             existingAgent = repository.findById(agent.getId()).orElse(null);
+            return existingAgent;
         }
 
-        if (agent.getId() == null) {
-            String agentCode = GenerateAgentCode.generateAgentCode(agent.getAgentName(), agent.getCountryId());
+        if (agent.getId() == null && agent.getAgentName() != null && agent.getCountryName() != null) {
+            String agentCode = GenerateAgentCode.generateAgentCode(agent.getAgentName(), agent.getCountryName());
             agent.setAgentCode(agentCode);
             agent.setCreatedOn(new Date());
             agent.setActive(false);
+            agent.setAgentName(agent.getAgentName().toUpperCase());
             agent.setCreatedBy("logged in user");
         }
         try {
@@ -70,7 +72,7 @@ public class AgentServiceImpl implements AgentService {
     @Override
     public String deleteAgent(String id) {
         Agent existingAgent = repository.findById(id).get();
-        if (id != null && existingAgent !=null) {
+        if (id != null && existingAgent != null) {
             repository.deleteById(id);
         }
         return "Agent with id - " + id + " has been deleted";

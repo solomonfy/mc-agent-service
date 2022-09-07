@@ -22,6 +22,7 @@ public class Agent {
     private String agentCode;
     private Address address;
     private String countryId;
+    private String countryName;
     private boolean active;
     private String createdBy;
     private Date createdOn;
